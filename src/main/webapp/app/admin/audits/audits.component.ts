@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiParseLinks } from 'ng-jhipster';
 
 import { ITEMS_PER_PAGE } from 'app/shared';
 import { Audit } from './audit.model';

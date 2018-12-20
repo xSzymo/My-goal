@@ -1,23 +1,22 @@
 package com.my.goal.domain;
 
-import com.my.goal.config.Constants;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.my.goal.config.Constants;
 import org.apache.commons.lang3.StringUtils;
-import javax.validation.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
-import java.time.Instant;
 
 /**
  * A user.

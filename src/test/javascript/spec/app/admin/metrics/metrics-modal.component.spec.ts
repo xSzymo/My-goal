@@ -1,6 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { of, throwError } from 'rxjs';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyGoalTestModule } from '../../../test.module';
 import { JhiMetricsMonitoringModalComponent } from 'app/admin/metrics/metrics-modal.component';

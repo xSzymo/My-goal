@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { JhiEventManager, JhiAlert, JhiAlertService } from 'ng-jhipster';
+import { JhiAlert, JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class JhiAlertErrorComponent implements OnDestroy {
     alerts: any[];
     cleanHttpErrorListener: Subscription;
+
     /* tslint:disable */
     constructor(private alertService: JhiAlertService, private eventManager: JhiEventManager) {
         /* tslint:enable */

@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { Observable, throwError } from 'rxjs';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { throwError } from 'rxjs';
 
 import { MyGoalTestModule } from '../../../test.module';
 import { AccountService } from 'app/core';

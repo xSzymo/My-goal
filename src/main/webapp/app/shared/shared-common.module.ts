@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { MyGoalSharedLibsModule, JhiAlertComponent, JhiAlertErrorComponent } from './';
+import { JhiAlertComponent, JhiAlertErrorComponent, MyGoalSharedLibsModule } from './';
 
 @NgModule({
     imports: [MyGoalSharedLibsModule],

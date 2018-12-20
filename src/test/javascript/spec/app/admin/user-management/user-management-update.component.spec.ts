@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { MyGoalTestModule } from '../../../test.module';
 import { UserMgmtUpdateComponent } from 'app/admin/user-management/user-management-update.component';
-import { UserService, User } from 'app/core';
+import { User, UserService } from 'app/core';
 
 describe('Component Tests', () => {
     describe('User Management Update Component', () => {

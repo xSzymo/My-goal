@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
-import { Observable, of, throwError } from 'rxjs';
-import { Renderer, ElementRef } from '@angular/core';
+import { ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { of, throwError } from 'rxjs';
+import { ElementRef, Renderer } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { MyGoalTestModule } from '../../../../test.module';

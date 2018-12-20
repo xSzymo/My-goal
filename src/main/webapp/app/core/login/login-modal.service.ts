@@ -6,6 +6,7 @@ import { JhiLoginModalComponent } from 'app/shared/login/login.component';
 @Injectable({ providedIn: 'root' })
 export class LoginModalService {
     private isOpen = false;
+
     constructor(private modalService: NgbModal) {}
 
     open(): NgbModalRef {

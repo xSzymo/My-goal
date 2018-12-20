@@ -1,7 +1,7 @@
 package com.my.goal.service;
-import com.my.goal.config.Constants;
 
 import com.my.goal.MyGoalApp;
+import com.my.goal.config.Constants;
 import com.my.goal.domain.User;
 import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;

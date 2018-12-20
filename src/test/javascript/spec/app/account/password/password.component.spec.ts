@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { MyGoalTestModule } from '../../../test.module';
 import { PasswordComponent } from 'app/account/password/password.component';

@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 
 import { MyGoalTestModule } from '../../../test.module';
@@ -305,7 +305,14 @@ describe('Component Tests', () => {
             });
             it('should handle a 503 on refreshing health data', () => {
                 // GIVEN
-                spyOn(service, 'checkHealth').and.returnValue(throwError(new HttpErrorResponse({ status: 503, error: 'Mail down' })));
+                spyOn(service, 'checkHealth').and.returnValue(
+                    throwError(
+                        new HttpErrorResponse({
+                            status: 503,
+                            error: 'Mail down'
+                        })
+                    )
+                );
                 spyOn(service, 'transformHealthData').and.returnValue(of({ health: 'down' }));
 
                 // WHEN

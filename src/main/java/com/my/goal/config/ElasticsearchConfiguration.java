@@ -14,14 +14,14 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.convert.ElasticsearchConverter;
-import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
+import org.springframework.data.elasticsearch.core.convert.MappingElasticsearchConverter;
 import org.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
+import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
+import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchPersistentEntity;
 import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchPersistentProperty;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.model.Property;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
-import org.springframework.data.elasticsearch.core.convert.MappingElasticsearchConverter;
-import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchPersistentEntity;
 
 import java.io.IOException;
 

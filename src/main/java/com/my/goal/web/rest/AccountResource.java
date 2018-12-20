@@ -1,7 +1,6 @@
 package com.my.goal.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-
 import com.my.goal.domain.User;
 import com.my.goal.repository.UserRepository;
 import com.my.goal.security.SecurityUtils;
@@ -12,7 +11,6 @@ import com.my.goal.service.dto.UserDTO;
 import com.my.goal.web.rest.errors.*;
 import com.my.goal.web.rest.vm.KeyAndPasswordVM;
 import com.my.goal.web.rest.vm.ManagedUserVM;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.
@@ -49,7 +47,7 @@ public class AccountResource {
      * POST  /register : register the user.
      *
      * @param managedUserVM the managed user View Model
-     * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
+     * @throws InvalidPasswordException  400 (Bad Request) if the password is incorrect
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
      * @throws LoginAlreadyUsedException 400 (Bad Request) if the login is already used
      */
@@ -111,7 +109,7 @@ public class AccountResource {
      *
      * @param userDTO the current user information
      * @throws EmailAlreadyUsedException 400 (Bad Request) if the email is already used
-     * @throws RuntimeException 500 (Internal Server Error) if the user login wasn't found
+     * @throws RuntimeException          500 (Internal Server Error) if the user login wasn't found
      */
     @PostMapping("/account")
     @Timed
@@ -153,10 +151,10 @@ public class AccountResource {
     @PostMapping(path = "/account/reset-password/init")
     @Timed
     public void requestPasswordReset(@RequestBody String mail) {
-       mailService.sendPasswordResetMail(
-           userService.requestPasswordReset(mail)
-               .orElseThrow(EmailNotFoundException::new)
-       );
+        mailService.sendPasswordResetMail(
+            userService.requestPasswordReset(mail)
+                .orElseThrow(EmailNotFoundException::new)
+        );
     }
 
     /**
@@ -164,7 +162,7 @@ public class AccountResource {
      *
      * @param keyAndPassword the generated key and the new password
      * @throws InvalidPasswordException 400 (Bad Request) if the password is incorrect
-     * @throws RuntimeException 500 (Internal Server Error) if the password could not be reset
+     * @throws RuntimeException         500 (Internal Server Error) if the password could not be reset
      */
     @PostMapping(path = "/account/reset-password/finish")
     @Timed

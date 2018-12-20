@@ -1,6 +1,6 @@
-import { TestBed, async, tick, fakeAsync, inject } from '@angular/core/testing';
+import { async, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { MyGoalTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { Renderer, ElementRef } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ElementRef, Renderer } from '@angular/core';
+import { of, throwError } from 'rxjs';
 
 import { MyGoalTestModule } from '../../../../test.module';
 import { PasswordResetInitComponent } from 'app/account/password-reset/init/password-reset-init.component';

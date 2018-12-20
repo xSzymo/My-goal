@@ -1,11 +1,10 @@
 package com.my.goal.config.dbmigrations;
 
+import com.github.mongobee.changeset.ChangeLog;
+import com.github.mongobee.changeset.ChangeSet;
 import com.my.goal.domain.Authority;
 import com.my.goal.domain.User;
 import com.my.goal.security.AuthoritiesConstants;
-
-import com.github.mongobee.changeset.ChangeLog;
-import com.github.mongobee.changeset.ChangeSet;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.time.Instant;

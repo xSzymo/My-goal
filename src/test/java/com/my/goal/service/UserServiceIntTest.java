@@ -3,11 +3,10 @@ package com.my.goal.service;
 import com.my.goal.MyGoalApp;
 import com.my.goal.config.Constants;
 import com.my.goal.domain.User;
-import com.my.goal.repository.search.UserSearchRepository;
 import com.my.goal.repository.UserRepository;
+import com.my.goal.repository.search.UserSearchRepository;
 import com.my.goal.service.dto.UserDTO;
 import com.my.goal.service.util.RandomUtil;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
