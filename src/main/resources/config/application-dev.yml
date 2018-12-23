@@ -44,8 +44,8 @@ spring:
             indent-output: true
     data:
         mongodb:
-            uri: mongodb://localhost:27017/tes
-            database: successAchiever
+            uri: mongodb://admin:admin123@ds137634.mlab.com:37634/tes
+            database: tes
         elasticsearch:
             properties:
                 path:

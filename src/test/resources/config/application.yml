@@ -25,9 +25,8 @@ spring:
         name: MyGoal
     data:
         mongodb:
-            host: localhost
-            port: 0
-            database: MyGoal
+            uri: mongodb://admin:admin123@ds137634.mlab.com:37634/tes
+            database: tes1
         elasticsearch:
             properties:
                 path:

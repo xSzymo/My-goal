@@ -49,7 +49,12 @@ public final class PaginationUtil {
 
     public static <T> HttpHeaders generateSearchPaginationHttpHeaders(String query, Page<T> page, String baseUrl) {
         String escapedQuery;
-        escapedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+        try {
+            escapedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new RuntimeException("URL encoder problem");
+        }
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", Long.toString(page.getTotalElements()));
         String link = "";
