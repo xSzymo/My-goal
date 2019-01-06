@@ -5,12 +5,14 @@ import com.my.goal.domain.Session;
 import com.my.goal.domain.Status;
 import com.my.goal.repository.EventRepository;
 import com.my.goal.security.SecurityUtils;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Stream;
 
+//TODO CHARTS!!
 @RestController
 @RequestMapping("/api/goal")
 public class GoalController {
@@ -42,6 +44,15 @@ public class GoalController {
             .map(eventRepository::save);
     }
 
+//    @GetMapping("isStarted")
+//    public IsStartedModel isStarted() {
+//        return new IsStartedModel(eventRepository
+//            .findAllByCreatedBy(SecurityUtils.getCurrentUserLogin()
+//                .orElse(null))
+//            .stream()
+//            .anyMatch(this::eventSessionsIncludesOpenStatus));
+//    }
+
     private boolean eventSessionsIncludesOpenStatus(Event event) {
         return event.getSessions().stream().anyMatch(session -> session.getStatus().equals(Status.INP));
     }
@@ -52,4 +63,15 @@ public class GoalController {
     private boolean isCurrentUserEqualToEventCreator(Event event) {
         return StringUtils.equals(SecurityUtils.getCurrentUserLogin().orElse(null), event.getCreatedBy());
     }
+
+//    private class IsStartedModel {
+//        public Boolean isStarted = false;
+//
+//        public IsStartedModel() {
+//        }
+//
+//        public IsStartedModel(boolean is) {
+//            this.isStarted = is;
+//        }
+//    }
 }

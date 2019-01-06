@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,11 @@ public class EventController {
 
     @PostMapping("events")
     public Event create(@RequestBody Event event) {
+//        if (event.getEndDate() != null)
+//            if (event.getEndDate().getEpochSecond() <= Instant.now().getEpochSecond() || ChronoUnit.DAYS.between(event.getEndDate(), Instant.now()) == 0)//TODO
+                //need to get general days isntead of alls econds
+//                return null;
+
         boolean eventWithThatNameAlreadyExist = eventRepository
             .findAllByCreatedBy(SecurityUtils.getCurrentUserLogin().orElse(null))
             .stream()
@@ -52,10 +59,10 @@ public class EventController {
             .collect(Collectors.toSet());
     }
 
-    @DeleteMapping("events/{id}")
-    public void delete(@PathVariable("id") String id) {
+    @DeleteMapping("events/{name}")
+    public void delete(@PathVariable("name") String name) {
         eventRepository
-            .findById(id)
+            .findByName(name)
             .filter(this::isCurrentUserEqualToEventCreator)
             .ifPresent(eventRepository::delete);
     }

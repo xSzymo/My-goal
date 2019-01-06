@@ -1,0 +1,46 @@
+<div [ngSwitch]="accountService.isAuthenticated()">
+    <!-- Details -->
+    <div *ngIf="this.showGoalDetails.getValue()">
+        <div class="row" style="display:flex;justify-content:center;align-items:center;">
+            <div class="col-md-9">
+                <div class="alert alert-dark">
+                    <!-- First -->
+
+                    <div style="display:flex;justify-content: space-between">
+                        <div *ngIf="this.isAnyEventStarted">
+                            <button class="btn btn-secondary active" (click)="this.start()" type="button">Start</button></div>
+                        <div *ngIf="this.isCurrentEventStarted()">
+                            <button class="btn btn-secondary active"
+                                    (click)="this.stop()" type="button">Stop
+                            </button>
+                        </div>
+
+                        <div *ngIf="this.isCurrentEventStarted()" style="float: right;"
+                             class="chart--large text-black">Elapsed : {{getExpiredTimeForCurrentGoal()}} min
+                        </div>
+
+                        <div class="btn-group-toggle" data-toggle="buttons" style="float:right;">
+                            <label class="btn btn-secondary active" [routerLink]="['']" [queryParams]="{ }">
+                                <input type="checkbox">Back
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Second -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>Completed : {{0}}%</div>
+                            <div>Started date : {{convertDateToLocaleDateString(goal.startDate)}}</div>
+                            <div style="text-align:left;">
+                                Ending date : {{convertDateToLocaleDateString(goal.endDate)}}
+                                <div style="float:right;">
+                                    HERE BANNER NEEDS DETAILS !!!!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

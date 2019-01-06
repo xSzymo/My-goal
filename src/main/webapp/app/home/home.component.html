@@ -1,46 +1,80 @@
-<div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
+
+<div [ngSwitch]="isAuthenticated()">
+    <div *ngSwitchCase="false" class="alert alert-warning">
+        <span>You don't have an account yet?</span>&nbsp;
+        <a class="alert-link" routerLink="register">Register here</a>
     </div>
-    <div class="col-md-9">
-        <h1 class="display-4">Welcome, Java Hipster!</h1>
-        <p class="lead">This is your homepage</p>
 
-        <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span id="home-logged-message" *ngIf="account"
-                > You are logged in as user "{{account.login}}". </span>
-            </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>If you want to </span>
-                <a class="alert-link" (click)="login()">sign in</a><span>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
-            </div>
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>You don't have an account yet?</span>&nbsp;
-                <a class="alert-link" routerLink="register">Register a new account</a>
-            </div>
+    <!-- CREATE BUTTON AT START -->
+    <div *ngSwitchCase="true">
+        <div style="text-align: center;"
+             *ngIf="this.elements.getValue().length == 0 && !this.showGoalDetails.getValue()">
+            <button class="btn btn-secondary active"
+                    data-target="#exampleModal" data-toggle="modal" type="button">Create
+            </button>
         </div>
 
-        <p>
-            If you have any question on JHipster:
-        </p>
+        <!-- Table -->
+        <div class="row" style="display:flex;justify-content:center;align-items:center;"
+             *ngIf="this.elements.getValue().length > 0 && !this.showGoalDetails.getValue()">
+            <div class="col-md-9">
+                <div class="alert alert-dark">
+                    <!-- First -->
+                    <div style="text-align:left;">
+                        <button class="btn btn-secondary active" data-target="#exampleModal" data-toggle="modal"
+                                type="button">Create
+                        </button>
+                        <div class="btn-group-toggle" data-toggle="buttons" style="float:right;">
+                            <label class="btn btn-secondary" (click)="this.changeStateOfShowDelete()">
+                                <input type="checkbox"> Show delete
+                            </label>
+                        </div>
+                    </div>
 
-        <ul>
-            <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener">JHipster homepage</a></li>
-            <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener">JHipster on Stack
-                Overflow</a></li>
-            <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank"
-                   rel="noopener">JHipster bug tracker</a></li>
-            <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener">JHipster public
-                chat room</a></li>
-            <li><a href="https://twitter.com/java_hipster" target="_blank" rel="noopener">follow @java_hipster on
-                Twitter</a></li>
-        </ul>
+                    <!-- Second -->
+                    <div *ngFor="let e of elements.getValue(); let i = index" id="accordion">
+                        <div class="card">
+                            <div class="card-header" id="headingOne'">
 
-        <p>
-            <span>If you like JHipster, don't forget to give us a star on</span> <a
-            href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener">GitHub</a>!
-        </p>
+                                <div style="text-align:left;">
+                                    <button (click)="this.hideAll(i)" [disabled]="this.disable"
+                                            aria-controls="collapseOne"
+                                            aria-expanded="false" class="btn btn-link" data-toggle="collapse">
+                                        {{ e.name }}
+                                    </button>
+                                    <div style="float:right;" *ngIf="this.showDelete">
+                                        <button class="btn btn-outline-danger btn-rounded waves-effect"
+                                                data-target="#exampleModal1" (click)="this.showDeleteModal(e.name)"
+                                                data-toggle="modal">Delete
+                                        </button>
+                                    </div>
+
+                                    <div *ngIf="!this.showDelete" style="float:right;font-size: large">
+                                        <div>{{packTime(e.id)}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Third -->
+                            <div aria-labelledby="headingOne" class="collapse hide" data-parent="#accordion"
+                                 id="{{'collapseOne' + i }}">
+                                <div class="card-body" style="background-color: #ececec; display: block">
+                                    <div>Completed : {{0}}%</div><!--TODO ALSO START -->
+                                    <div>Started date : {{convertDateToLocaleDateString(e.startDate)}}</div>
+                                    <div style="text-align:left;">
+                                        Ending date : {{convertDateToLocaleDateString(e.endDate)}}
+                                        <div style="float:right;">
+                                            <a [routerLink]="['details/']" [queryParams]="{ name: e.name }"
+                                               style="font-size: medium" (click)="this.showDetails(e)">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <jhi-modals></jhi-modals>
 </div>

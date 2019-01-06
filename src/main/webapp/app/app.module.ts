@@ -1,6 +1,9 @@
 import './vendor.ts';
 
 import { NgModule } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -20,10 +23,16 @@ import { MyGoalEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { ErrorComponent, FooterComponent, JhiMainComponent, NavbarComponent, PageRibbonComponent } from './layouts';
+import { MyGoalDetailsModule } from 'app/details/details.module';
+import { ModalsComponent } from './modals/modals.component';
 
 @NgModule({
     imports: [
         BrowserModule,
+        MatExpansionModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatCheckboxModule,
         MyGoalAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         NgJhipsterModule.forRoot({
@@ -34,6 +43,7 @@ import { ErrorComponent, FooterComponent, JhiMainComponent, NavbarComponent, Pag
         MyGoalSharedModule.forRoot(),
         MyGoalCoreModule,
         MyGoalHomeModule,
+        MyGoalDetailsModule,
         MyGoalAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         MyGoalEntityModule

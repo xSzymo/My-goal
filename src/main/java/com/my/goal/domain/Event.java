@@ -2,7 +2,6 @@ package com.my.goal.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -11,7 +10,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -36,7 +34,8 @@ public class Event extends AbstractAuditingEntity implements Serializable {
 
     @Indexed
     private int daily = 0;
-    @Indexed
+//    @Indexed
+    //just for lollll?
     private int total = 0;
 
     //    @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -87,11 +86,16 @@ public class Event extends AbstractAuditingEntity implements Serializable {
         this.daily = daily;
     }
 
-    public int getTotal() {
-        return total;
+    public long getTotal() {
+        long sum = this.sessions.stream().mapToLong(Session::getDuration).sum();
+        return sum > 0 ? sum / 60 : 0;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+//    public void setTotal(int total) {
+//        this.total = total;
+//    }
+
+    public Instant getStartDate() {
+        return getCreatedDate();
     }
 }
