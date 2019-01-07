@@ -44,7 +44,7 @@
                                     </button>
                                     <div style="float:right;" *ngIf="this.showDelete">
                                         <button class="btn btn-outline-danger btn-rounded waves-effect"
-                                                data-target="#exampleModal1" (click)="this.showDeleteModal(e.name)"
+                                                data-target="#exampleModal1" (click)="this.setElementToDelete(e.name)"
                                                 data-toggle="modal">Delete
                                         </button>
                                     </div>
@@ -76,5 +76,5 @@
             </div>
         </div>
     </div>
-    <jhi-modals></jhi-modals>
+    <jhi-modals [elementName]="elementToDelete" (event)="this.reactOnModalsAction($event)"></jhi-modals>
 </div>

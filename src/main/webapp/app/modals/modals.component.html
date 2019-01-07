@@ -24,7 +24,7 @@
             </div>
             <div style="text-align:left; padding: 2%;">
                 <hr>
-                <button type="button" (click)="this.saveEvent()"
+                <button type="button" (click)="this.saveGoal(name, dailyMin, endDate)"
                         class="btn btn-secondary btn-md btn-block.">Confirm
                 </button>
                 <span style="float:right;">
@@ -43,7 +43,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Delete : <b>{{elementToDelete}}</b></h5>
+                <h5 class="modal-title" id="exampleModalLabel1">Delete : <b>{{nameOfElementToDelete}}</b></h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -53,7 +53,7 @@
             </div>
             <div style="text-align:left; padding: 2%;">
                 <hr>
-                <button type="button" (click)="this.deleteGoal(elementToDelete)"
+                <button type="button" (click)="deleteGoal(nameOfElementToDelete)"
                         class="btn btn-secondary btn-md btn-block.">Confirm
                 </button>
                 <span style="float:right;">

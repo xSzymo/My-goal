@@ -10,7 +10,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Goal, Session } from 'app/home/Goal';
 import { ModalsComponent } from 'app/modals/modals.component';
-import { DetailsComponent } from 'app/details/details.component';
+import { GoalsService } from 'app/goals.service';
+import { ModalEvent, ModalEventType } from 'app/modals/ModalsEvent';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -25,18 +26,16 @@ export class HomeComponent implements OnInit {
     disable: boolean;
     showDelete: boolean;
 
+    elementToDelete: String;
+
     isAnyEventStarted = new BehaviorSubject<boolean>(false);
     showGoalDetails = new BehaviorSubject<boolean>(false);
     goal: Goal;
 
-    GOALS_URL: String = SERVER_API_URL + 'api/goal/events';
     GOALS_ACTION_URL: String = SERVER_API_URL + 'api/goal';
 
-    name: String;
-    dailyMin: any;
-    endDate: Date;
-
     constructor(
+        private goalsService: GoalsService,
         private modalsComponent: ModalsComponent,
         private accountService: AccountService,
         private loginModalService: LoginModalService,
@@ -54,6 +53,23 @@ export class HomeComponent implements OnInit {
         this.registerAuthenticationSuccess();
 
         this.updateShowGoalDetails();
+    }
+
+    public setElementToDelete(name: String) {
+        this.elementToDelete = name;
+    }
+
+    public reactOnModalsAction(event: ModalEvent) {
+        if (event.type == ModalEventType.Delete) this.refreshElements();
+        if (event.type == ModalEventType.Create) this.elements.next(this.elements.getValue().concat(event.goal as Goal));
+    }
+
+    public refreshElements() {
+        this.goalsService.get().subscribe(x => {
+            this.elements.next(x);
+            this.isAnyEventStarted.next(this.checkIfAnyElementIsStarted(x));
+            this.updateShowGoalDetails();
+        });
     }
 
     private updateShowGoalDetails() {
@@ -74,7 +90,7 @@ export class HomeComponent implements OnInit {
 
     public getTotal(id: String): number {
         const foundGoal = this.elements.getValue().find(x => x.id === id);
-        const goal = this.createGoal(foundGoal);
+        const goal = this.goalsService.createGoalInstance(foundGoal);
 
         const start = Math.ceil(goal.startDate.getTime()) / (24 * 60 * 60 * 1000);
         const end = Math.ceil(new Date().getTime()) / (24 * 60 * 60 * 1000);
@@ -83,7 +99,7 @@ export class HomeComponent implements OnInit {
 
     public calculateLeftTimeForToday(id: String): number {
         const foundGoal = this.elements.getValue().find(x => x.id === id);
-        const convertedGoal = this.createGoal(foundGoal);
+        const convertedGoal = this.goalsService.createGoalInstance(foundGoal);
         const endDateInEpoch =
             new Date().getTime() <= convertedGoal.endDate.getTime() ? new Date().getTime() : convertedGoal.endDate.getTime();
 
@@ -97,29 +113,8 @@ export class HomeComponent implements OnInit {
         return (time > 0 ? 'Left : ' : 'Nadgodzinki : ') + Math.abs(time);
     }
 
-    public createGoal(passed: Goal): any {
-        const goal = new Goal();
-        goal.id = passed.id;
-        goal.name = passed.name;
-        goal.daily = passed.daily;
-        goal.total = passed.total;
-        goal.endDate = new Date(passed.endDate);
-        goal.startDate = new Date(passed.startDate);
-        goal.sessions = passed.sessions;
-
-        return goal;
-    }
-
     public changeStateOfShowDelete() {
         this.showDelete = !this.showDelete;
-    }
-
-    public refreshElements() {
-        this.getAll().subscribe(x => {
-            this.elements.next(x);
-            this.isAnyEventStarted.next(this.checkIfAnyElementIsStarted(x));
-            this.updateShowGoalDetails();
-        });
     }
 
     private checkIfAnyElementIsStarted(x: Goal[]) {
@@ -156,10 +151,6 @@ export class HomeComponent implements OnInit {
                 ($('#collapseOne' + i) as any).collapse('hide');
             }
         }
-    }
-
-    public getAll(): Observable<Goal[]> {
-        return this.http.get(this.GOALS_URL + '').pipe(map(x => x as Goal[]));
     }
 
     public start1(): Observable<Goal[]> {
@@ -203,18 +194,6 @@ export class HomeComponent implements OnInit {
         return this.goal.sessions.filter((session: Session) => session.status === 'INP').length > 0;
     }
 
-    public saveEvent() {
-        const data = {
-            name: this.name,
-            daily: this.dailyMin,
-            endDate: new Date(this.endDate)
-        };
-
-        this.http.post(this.GOALS_URL + '', data).subscribe(x => this.elements.next(this.elements.getValue().concat(x as any)));
-
-        ($('#exampleModal') as any).modal('hide');
-    }
-
     public getExpiredTimeForCurrentGoal() {
         const x = this.elements
             .getValue()
@@ -222,10 +201,6 @@ export class HomeComponent implements OnInit {
             .map((x2: Goal) => x2.sessions.filter((x3: Session) => x3.status !== 'CLOSE').map((x4: Session) => x4.duration));
 
         return Math.floor(((x[0][0] as number) > 0 ? (x[0][0] as number) : 1) / 60);
-    }
-
-    public showDeleteModal(name: String) {
-        this.modalsComponent.showDeleteModal(name);
     }
 
     public showDetails(goal: Goal) {

@@ -1,6 +1,6 @@
-import { Component, Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { SERVER_API_URL } from 'app/app.constants';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
+import { GoalsService } from 'app/goals.service';
+import { ModalEvent, ModalEventType } from 'app/modals/ModalsEvent';
 
 @Injectable({ providedIn: 'root' })
 @Component({
@@ -9,24 +9,30 @@ import { SERVER_API_URL } from 'app/app.constants';
     styles: []
 })
 export class ModalsComponent implements OnInit {
-    elementToDelete: String;
+    @Output() event = new EventEmitter<ModalEvent>();
+    @Input('elementName') nameOfElementToDelete: String;
 
-    GOALS_URL: String = SERVER_API_URL + 'api/goal/events';
-    GOALS_ACTION_URL: String = SERVER_API_URL + 'api/goal';
+    name: String;
+    dailyMin: number;
+    endDate: Date;
 
-    constructor(private http: HttpClient) {}
+    constructor(private goalService: GoalsService) {}
 
     ngOnInit() {}
 
-    public showDeleteModal(name: String) {
-        console.log('deleteing');
-        this.elementToDelete = name;
-        ($('#exampleModal1') as any).modal('show');
-    }
-
     public deleteGoal(name: String) {
-        this.http.delete(this.GOALS_URL + '/' + name).subscribe(() => this.refreshElements());
+        this.goalService.delete(name).subscribe(() => this.event.emit(new ModalEvent(ModalEventType.Delete))); //delete from table
 
         ($('#exampleModal1') as any).modal('hide');
+    }
+
+    public saveGoal(name: String, dailyMin: number, endDate: Date) {
+        this.goalService.create(name, dailyMin, endDate).subscribe(x => {
+            const event = new ModalEvent(ModalEventType.Delete);
+            event.goal = x;
+            this.event.emit(event);
+        });
+
+        ($('#exampleModal') as any).modal('hide');
     }
 }
