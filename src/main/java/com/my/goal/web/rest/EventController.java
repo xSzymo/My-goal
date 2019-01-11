@@ -7,10 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 //TODO : update?
 //TODO : just for sessions?
@@ -40,11 +39,13 @@ public class EventController {
             return null;
     }
 
-    @GetMapping("events/{id}")
-    public Event find(@PathVariable("id") String id) {
+    @GetMapping("events/{name}")
+    public Stream<Event> find(@PathVariable("name") String name) {
         return eventRepository
-            .findById(id)
-            .filter(this::isCurrentUserEqualToEventCreator).orElse(null);
+            .findByNameIgnoreCase(name)
+            .stream()
+            .filter(this::isCurrentUserEqualToEventCreator)
+            .limit(1);
     }
 
     @GetMapping("events")
@@ -60,11 +61,12 @@ public class EventController {
     }
 
     @DeleteMapping("events/{name}")
-    public void delete(@PathVariable("name") String name) {
-        eventRepository
-            .findByName(name)
+    public Stream<Event> delete(@PathVariable("name") String name) {
+        return eventRepository
+            .findByNameIgnoreCase(name)
+            .stream()
             .filter(this::isCurrentUserEqualToEventCreator)
-            .ifPresent(eventRepository::delete);
+            .peek(eventRepository::delete);
     }
 
     private boolean isCurrentUserEqualToEventCreator(Event event) {

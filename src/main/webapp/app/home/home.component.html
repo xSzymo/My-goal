@@ -64,8 +64,8 @@
                                     <div style="text-align:left;">
                                         Ending date : {{convertDateToLocaleDateString(e.endDate)}}
                                         <div style="float:right;">
-                                            <a [routerLink]="['details/']" [queryParams]="{ name: e.name }"
-                                               style="font-size: medium" (click)="this.showDetails(e)">Details</a>
+                                            <a [routerLink]="['details/' + e.name]"
+                                               style="font-size: medium">Details</a>
                                         </div>
                                     </div>
                                 </div>

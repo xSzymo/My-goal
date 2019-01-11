@@ -10,6 +10,8 @@ import { ModalEvent, ModalEventType } from 'app/modals/ModalsEvent';
 })
 export class ModalsComponent implements OnInit {
     @Output() event = new EventEmitter<ModalEvent>();
+
+    // tslint:disable-next-line:no-input-rename
     @Input('elementName') nameOfElementToDelete: String;
 
     name: String;
@@ -21,7 +23,7 @@ export class ModalsComponent implements OnInit {
     ngOnInit() {}
 
     public deleteGoal(name: String) {
-        this.goalService.delete(name).subscribe(() => this.event.emit(new ModalEvent(ModalEventType.Delete))); //delete from table
+        this.goalService.delete(name).subscribe(() => this.event.emit(new ModalEvent(ModalEventType.Delete)));
 
         ($('#exampleModal1') as any).modal('hide');
     }

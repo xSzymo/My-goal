@@ -18,6 +18,10 @@ export class GoalsService {
         return this.http.get(this.GOALS_URL).pipe(map(x => x as Goal[]));
     }
 
+    public getOne(name: String): Observable<Goal[]> {
+        return this.http.get(this.GOALS_URL + '/' + name).pipe(map(x => x as Goal[]));
+    }
+
     public create(name: String, dailyMin: number, endDate: Date): Observable<Goal> {
         return this.http.post(this.GOALS_URL + '', this.pack(name, dailyMin, endDate)).pipe(map(x => x as Goal));
     }
@@ -26,9 +30,17 @@ export class GoalsService {
         return this.http.delete(this.GOALS_URL + '/' + name);
     }
 
-    private pack(name: String, dailyMin: number, endDate: Date): any {
+    public start(name: String): Observable<Goal[]> {
+        return this.http.get(this.GOALS_ACTION_URL + '/start/' + name).pipe(map(x => x as Goal[]));
+    }
+
+    public stop(): Observable<Goal[]> {
+        return this.http.get(this.GOALS_ACTION_URL + '/stop').pipe(map(x => x as Goal[]));
+    }
+
+    private pack(_name: String, dailyMin: number, endDate: Date): any {
         return {
-            name: name,
+            name: _name,
             daily: dailyMin,
             endDate: new Date(endDate)
         };

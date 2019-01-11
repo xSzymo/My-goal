@@ -21,10 +21,8 @@ import { MyGoalHomeModule } from './home/home.module';
 import { MyGoalAccountModule } from './account/account.module';
 import { MyGoalEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
-// jhipster-needle-angular-add-module-import JHipster will add new module here
 import { ErrorComponent, FooterComponent, JhiMainComponent, NavbarComponent, PageRibbonComponent } from './layouts';
 import { MyGoalDetailsModule } from 'app/details/details.module';
-import { ModalsComponent } from './modals/modals.component';
 
 @NgModule({
     imports: [

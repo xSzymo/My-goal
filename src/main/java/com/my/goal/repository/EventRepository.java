@@ -22,7 +22,7 @@ public interface EventRepository extends MongoRepository<Event, String> {
 //
     List<Event> findAllByCreatedBy(String creator);
 
-    Optional<Event> findByName(String name);
+    List<Event> findByNameIgnoreCase(String name);
 
 //    @Query("{ 'created_by' : ?0, 'sessions.start': { $gte: ?1, $lte: ?2} }")
 //    List<Event> search(String owner, long from, long to);
