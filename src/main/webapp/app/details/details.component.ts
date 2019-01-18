@@ -26,7 +26,7 @@ export class DetailsComponent implements OnInit {
             });
         });
 
-        interval(60 * 1000)
+        interval(61 * 1000)
             .pipe(filter(() => this.started.getValue()))
             .subscribe(() => {
                 this.goalsService.getOne(this.goal.getValue().name).subscribe(x1 => this.goal.next(x1[0]));
@@ -58,6 +58,26 @@ export class DetailsComponent implements OnInit {
         return goal.sessions.find((session: Session) => session.status === 'INP') != null;
     }
 
+    public completedTime(goal: Goal): number {
+        if (goal == null || goal.sessions.length === 0) {
+            return 0;
+        }
+
+        const completedSec = goal.sessions.map((x: Session) => x.duration).reduce((a, b) => a + b);
+
+        const differenceBetweenEndAndStartDateInMilis = new Date(goal.endDate).getTime() - new Date(goal.startDate).getTime();
+        const requiredTimeInMin = GoalsService.convertMilisToDays(differenceBetweenEndAndStartDateInMilis) * goal.daily;
+        const expiredTime = Math.floor(completedSec / 60);
+
+        return Math.floor((expiredTime / requiredTimeInMin) * 100);
+    }
+
+    public completedTimeWithinString(goal: Goal): String {
+        const percent = this.completedTime(goal);
+        console.log(percent);
+        return (percent > 100 ? 100 : percent) + '%';
+    }
+
     public convertDateToLocaleDateString(e: Date): String {
         if (e == null) {
             return '';
@@ -79,13 +99,12 @@ export class DetailsComponent implements OnInit {
         return Math.floor(((x[0] as number) > 0 ? (x[0] as number) : 1) / 60);
     }
 
-    /*
-    public getTotal(id: String): number {
-        const foundGoal = this.elements.getValue().find(x => x.id === id);
-        const goal = this.goalsService.createGoalInstance(foundGoal);
+    public getRequired(goal: Goal): number {
+        if (goal == null) {
+            return 0;
+        }
 
-        const start = Math.ceil(goal.startDate.getTime()) / (24 * 60 * 60 * 1000);
-        const end = Math.ceil(new Date().getTime()) / (24 * 60 * 60 * 1000);
-        return goal.daily * (Math.ceil(end) - Math.ceil(start) + 1) - goal.total;
-    }*/
+        const differenceBetweenEndAndStartDateInMilis = new Date(goal.endDate).getTime() - new Date(goal.startDate).getTime();
+        return GoalsService.convertMilisToDays(differenceBetweenEndAndStartDateInMilis) * goal.daily;
+    }
 }

@@ -59,8 +59,8 @@
                             <div aria-labelledby="headingOne" class="collapse hide" data-parent="#accordion"
                                  id="{{'collapseOne' + i }}">
                                 <div class="card-body" style="background-color: #ececec; display: block">
-                                    <div>Completed : {{0}}%</div><!--TODO ALSO START -->
-                                    <div>Started date : {{convertDateToLocaleDateString(e.startDate)}}</div>
+                                    <div>Today : {{todayTime(e)}} min</div>
+                                    <div>Time to end : {{daysToEnd(e)}}</div>
                                     <div style="text-align:left;">
                                         Ending date : {{convertDateToLocaleDateString(e.endDate)}}
                                         <div style="float:right;">

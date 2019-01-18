@@ -2,7 +2,7 @@
     <!-- Details -->
         <div class="row" style="display:flex;justify-content:center;align-items:center;">
             <div class="col-md-9">
-                <div class="alert alert-dark">
+                <div>
                     <!-- First -->
 
                     <div style="display:flex;justify-content: space-between">
@@ -28,7 +28,17 @@
                     <!-- Second -->
                     <div class="card">
                         <div class="card-header">
-                            <div>Completed : {{0}}%</div>
+                            <div class="progress md-progress" style="height: 20px">
+                                <div *ngIf="completedTime(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : completedTime(this.goal.getValue()) + '%'}"
+                                     style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{completedTime(goal.getValue())}}%</div>
+
+                                <div *ngIf="completedTime(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{completedTime(goal.getValue())}}%</div>
+                            </div>
+                            <div><hr></div>
+                            <div>Total achieved : {{(goal.getValue() != null ? goal.getValue().total : 0)}}</div>
+                            <div>Required to end : {{getRequired(goal.getValue())}}</div>
+                            <div>Today's time : </div>
+                            <div>Days to end : </div>
                             <div>Started date : {{convertDateToLocaleDateString(goal.getValue() != null ? goal.getValue().startDate : null)}}</div>
                             <div style="text-align:left;">
                                 Ending date : {{convertDateToLocaleDateString(goal.getValue() != null ? goal.getValue().endDate : null)}}

@@ -68,12 +68,16 @@ export class HomeComponent implements OnInit {
         this.showDelete = !this.showDelete;
     }
 
-    private checkIfAnyElementIsStarted(x: Goal[]) {
+    private checkIfAnyElementIsStarted(x: Goal[]): boolean {
         return (
             x
                 .map((goal: Goal) => goal.sessions)
                 .find((sessions: Session[]) => sessions.filter((session: Session) => session.status === 'INP').length > 0) != null
         );
+    }
+
+    private checkIfAnySessionIsStarted(x: Goal): boolean {
+        return x.sessions.filter((session: Session) => session.status === 'INP').length > 0;
     }
 
     registerAuthenticationSuccess() {
@@ -108,14 +112,38 @@ export class HomeComponent implements OnInit {
         return new Date(e).toLocaleDateString();
     }
 
+    //oraz trzeba dolozyc nowa zmianne na backu ktora bedzie definiowala ile minut jest wymaaggane na ile dni? tydzien meisiac total?
+    public daysToEnd(e: Date): number {
+        //zastanowiz csie co ma byc na glownej stronce / najwazniejsze info a na details wszystko wszystko
+        //moze pierwsze zaczac od tamtej stronki a potem tylko zadecydowac o priortyteach
+        return Math.floor((new Date().getUTCDate() - new Date(e).getUTCDate()) * 1000 * 60 * 60 * 24);
+    }
+
     public packTime(id: String): String {
         const time = this.calculateLeftTimeForToday(id);
-        return (time > 0 ? 'Left : ' : 'Nadgodzinki : ') + Math.abs(time);
+        const started = this.checkIfAnySessionIsStarted(this.elements.getValue().find(x => x.id === id));
+
+        if (started) {
+            return (time > 0 ? 'INP | Left : ' : 'Nadgodzinki : ') + Math.abs(time);
+        } else {
+            return (time > 0 ? 'Left : ' : 'Nadgodzinki : ') + Math.abs(time);
+        }
+    }
+
+    public todayTime(goal: Goal): number {
+        if (goal.sessions.length === 0) return 0;
+
+        return Math.floor(
+            goal.sessions
+                .filter((x: Session) => new Date(x.createdDate).getUTCDate() <= new Date().getUTCDate())
+                .map((x: Session) => x.duration)
+                .reduce((a, b) => a + b) / 60
+        );
     }
 
     public calculateLeftTimeForToday(id: String): number {
         const foundGoal = this.elements.getValue().find(x => x.id === id);
-        const convertedGoal = this.goalsService.createGoalInstance(foundGoal);
+        const convertedGoal = GoalsService.createGoalInstance(foundGoal);
         const endDateInEpoch =
             new Date().getTime() <= convertedGoal.endDate.getTime() ? new Date().getTime() : convertedGoal.endDate.getTime();
 

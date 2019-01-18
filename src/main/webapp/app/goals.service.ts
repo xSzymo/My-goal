@@ -23,7 +23,7 @@ export class GoalsService {
     }
 
     public create(name: String, dailyMin: number, endDate: Date): Observable<Goal> {
-        return this.http.post(this.GOALS_URL + '', this.pack(name, dailyMin, endDate)).pipe(map(x => x as Goal));
+        return this.http.post(this.GOALS_URL + '', GoalsService.pack(name, dailyMin, endDate)).pipe(map(x => x as Goal));
     }
 
     public delete(name: String): Observable<Object> {
@@ -38,7 +38,7 @@ export class GoalsService {
         return this.http.get(this.GOALS_ACTION_URL + '/stop').pipe(map(x => x as Goal[]));
     }
 
-    private pack(_name: String, dailyMin: number, endDate: Date): any {
+    private static pack(_name: String, dailyMin: number, endDate: Date): any {
         return {
             name: _name,
             daily: dailyMin,
@@ -46,7 +46,7 @@ export class GoalsService {
         };
     }
 
-    public createGoalInstance(passed: Goal): Goal {
+    public static createGoalInstance(passed: Goal): Goal {
         const goal = new Goal();
         goal.id = passed.id;
         goal.name = passed.name;
@@ -57,5 +57,13 @@ export class GoalsService {
         goal.sessions = passed.sessions;
 
         return goal;
+    }
+
+    public static convertMilisToDays(miliseconds): any {
+        const total_seconds = Math.floor(miliseconds / 1000);
+        const total_minutes = Math.floor(total_seconds / 60);
+        const total_hours = Math.floor(total_minutes / 60);
+
+        return Math.floor(total_hours / 24);
     }
 }
