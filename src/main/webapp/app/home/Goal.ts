@@ -1,3 +1,9 @@
+export class SessionModel {
+    date: Date;
+    duration: number;
+    sessions: [];
+}
+
 export class Session {
     createdDate: Date;
     end: Date;

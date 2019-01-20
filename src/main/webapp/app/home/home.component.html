@@ -1,4 +1,5 @@
 
+
 <div [ngSwitch]="isAuthenticated()">
     <div *ngSwitchCase="false" class="alert alert-warning">
         <span>You don't have an account yet?</span>&nbsp;
@@ -60,7 +61,6 @@
                                  id="{{'collapseOne' + i }}">
                                 <div class="card-body" style="background-color: #ececec; display: block">
                                     <div>Today : {{todayTime(e)}} min</div>
-                                    <div>Time to end : {{daysToEnd(e)}}</div>
                                     <div style="text-align:left;">
                                         Ending date : {{convertDateToLocaleDateString(e.endDate)}}
                                         <div style="float:right;">

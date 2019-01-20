@@ -28,7 +28,14 @@ export class ModalsComponent implements OnInit {
         ($('#exampleModal1') as any).modal('hide');
     }
 
-    public saveGoal(name: String, dailyMin: number, endDate: Date) {
+    public saveGoal(name: String, dailyMin: number, givenEndDate: Date) {
+        const currentDate = new Date();
+        const endDate = new Date(givenEndDate);
+        endDate.setHours(currentDate.getHours());
+        endDate.setMinutes(currentDate.getMinutes());
+        endDate.setSeconds(currentDate.getSeconds());
+        endDate.setMilliseconds(currentDate.getMilliseconds());
+
         this.goalService.create(name, dailyMin, endDate).subscribe(x => {
             const event = new ModalEvent(ModalEventType.Delete);
             event.goal = x;
