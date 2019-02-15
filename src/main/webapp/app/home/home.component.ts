@@ -112,14 +112,6 @@ export class HomeComponent implements OnInit {
         return new Date(e).toLocaleDateString();
     }
 
-    // PROGRESS BAR ROZNE BARY !!!
-    // oraz trzeba dolozyc nowa zmianne na backu ktora bedzie definiowala ile minut jest wymaaggane na ile dni? tydzien meisiac total?
-    // zastanowiz csie co ma byc na glownej stronce / najwazniejsze info a na details wszystko wszystko
-    // moze pierwsze zaczac od tamtej stronki a potem tylko zadecydowac o priortyteach
-    public daysToEnd(e: Date): number {
-        return Math.floor((new Date(e).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-    }
-
     public packTime(id: String): String {
         const time = this.calculateLeftTimeForToday(id);
         const started = this.checkIfAnySessionIsStarted(this.elements.getValue().find(x => x.id === id));

@@ -201,7 +201,7 @@ export class DetailsComponent implements OnInit {
 
         if (this.daysToShow === '1') {
             const differenceBetweenEndAndStartDateInMilis = new Date().getTime() - new Date(goal.startDate).getTime();
-            return GoalsService.convertMilisToDays(differenceBetweenEndAndStartDateInMilis) * goal.daily;
+            return GoalsService.convertMilisToDays(differenceBetweenEndAndStartDateInMilis) * goal.daily + goal.daily;
         }
         if (this.daysToShow === '7') {
             const date = new Date();
