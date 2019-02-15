@@ -31,7 +31,7 @@
 
                             <div style="text-align: right;">
                                 <select class="custom-select custom-select-md mb-1"
-                                [(ngModel)]="daysToShow" style="width: 15%; min-width: 90px; max-width: 120px">
+                                [(ngModel)]="this.timeGoalsService.daysToShow" style="width: 15%; min-width: 90px; max-width: 120px">
                                     <option value='1' selected>Day</option>
                                     <option value='7'>Week</option>
                                     <option value='30'>Month</option>
@@ -39,24 +39,24 @@
                                 </select>
                          </div>
 
-                            <div style="text-align: center">{{getDaysToShow()}}</div>
+                            <div style="text-align: center">{{timeGoalsService.getDaysToShow()}}</div>
 
                             <div class="progress md-progress" style="height: 20px">
-                                        <div *ngIf="daysToShow === '1'  && completedTimeToday(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : completedTimeToday(this.goal.getValue()) + '%'}"
-                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{completedTimeToday(goal.getValue())}}%</div>
-                                        <div *ngIf="daysToShow === '1'  && completedTimeToday(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{completedTimeToday(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '1'  && timeGoalsService.completedTimeToday(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : timeGoalsService.completedTimeToday(this.goal.getValue()) + '%'}"
+                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{timeGoalsService.completedTimeToday(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '1'  && timeGoalsService.completedTimeToday(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{timeGoalsService.completedTimeToday(goal.getValue())}}%</div>
 
-                                        <div *ngIf="daysToShow === '7'  && completedTimeWeek(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : completedTimeWeek(this.goal.getValue()) + '%'}"
-                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{completedTimeWeek(goal.getValue())}}%</div>
-                                        <div *ngIf="daysToShow === '7'  && completedTimeWeek(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{completedTimeWeek(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '7'  && timeGoalsService.completedTimeWeek(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : timeGoalsService.completedTimeWeek(this.goal.getValue()) + '%'}"
+                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{timeGoalsService.completedTimeWeek(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '7'  && timeGoalsService.completedTimeWeek(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{timeGoalsService.completedTimeWeek(goal.getValue())}}%</div>
 
-                                        <div *ngIf="daysToShow === '30'  && completedTimeMonth(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : completedTimeMonth(this.goal.getValue()) + '%'}"
-                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{completedTimeMonth(goal.getValue())}}%</div>
-                                        <div *ngIf="daysToShow === '30'  && completedTimeMonth(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{completedTimeMonth(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '30'  && timeGoalsService.completedTimeMonth(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : timeGoalsService.completedTimeMonth(this.goal.getValue()) + '%'}"
+                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{timeGoalsService.completedTimeMonth(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '30'  && timeGoalsService.completedTimeMonth(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{timeGoalsService.completedTimeMonth(goal.getValue())}}%</div>
 
-                                        <div *ngIf="daysToShow === '0'  && completedTime(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : completedTime(this.goal.getValue()) + '%'}"
-                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{completedTime(goal.getValue())}}%</div>
-                                        <div *ngIf="daysToShow === '0'  && completedTime(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{completedTime(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '0'  && timeGoalsService.completedTime(this.goal.getValue()) > 5" class="progress-bar" role="progressbar" [ngStyle]="{'width' : timeGoalsService.completedTime(this.goal.getValue()) + '%'}"
+                                            style="height: 20px" aria-valuemin="0" aria-valuemax="100">{{timeGoalsService.completedTime(goal.getValue())}}%</div>
+                                        <div *ngIf="timeGoalsService.daysToShow === '0'  && timeGoalsService.completedTime(this.goal.getValue()) <= 5" style="text-align: center; width: 100%; height: 20px">{{timeGoalsService.completedTime(goal.getValue())}}%</div>
                             </div>
 
                             <div><hr></div>
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             <div style="text-align:left;">
-                                Required to end : {{getRequired(goal.getValue())}}
+                                Required to end : {{timeGoalsService.getRequired(goal.getValue())}}
                                 <div style="float:right;">
                                     Started date : {{convertDateToLocaleDateString(goal.getValue() != null ? goal.getValue().startDate : null)}}
                                 </div>
