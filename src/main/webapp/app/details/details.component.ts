@@ -60,44 +60,14 @@ export class DetailsComponent implements OnInit {
         });
     }
 
-    private isStarted(goal: Goal): boolean {
-        return goal.sessions.find((session: Session) => session.status === 'INP') != null;
-    }
-
     public getProperSessions(goal: Goal): any {
         if (goal == null) {
             return [];
         }
 
-        const map = new Map();
-        goal.sessions.forEach((session: Session) => {
-            const createdDate = new Date(session.createdDate).getTime();
-            if (!map.has(GoalsService.convertMilisToDays(createdDate))) {
-                const sessionModel = new SessionModel();
-                sessionModel.date = session.createdDate;
-                sessionModel.duration = session.duration;
-                // sessionModel.sessions.push(session);TODO
-                map.set(GoalsService.convertMilisToDays(createdDate), sessionModel);
-            } else {
-                const sessionModel = map.get(GoalsService.convertMilisToDays(createdDate));
-                sessionModel.duration += session.duration;
-                // sessionModel.sessions.push(session);
-                map.set(GoalsService.convertMilisToDays(createdDate), sessionModel);
-            }
-        });
-        let array = Array.from(map.values());
-        array.forEach((session: Session) => (session.duration = session.duration > 0 ? Math.floor(session.duration / 60) : 0));
-        array = array
-            .filter((x: SessionModel) => {
-                const date = new Date();
-                if (this.timeGoalsService.daysToShow !== '0') {
-                    date.setDate(date.getDate() - parseInt(this.timeGoalsService.daysToShow));
-                } else {
-                    date.setDate(date.getDate() - 1000000);
-                }
-                return new Date(x.date).getTime() > date.getTime();
-            })
-            .sort((a: Session, b: Session) => new Date(a.end).getTime() - new Date(b.end).getTime());
+        let array = this.mapGoalSessionsToSessionModel(goal);
+        array = this.setProperDurationToSessions(array);
+        array = this.sortSessionsByDate(array);
         return array.reverse();
     }
 
@@ -121,6 +91,7 @@ export class DetailsComponent implements OnInit {
 
         return Math.floor(((x[0] as number) > 0 ? (x[0] as number) : 1) / 60);
     }
+
     public todayTime(goal: Goal): number {
         if (goal.sessions.length === 0) {
             return 0;
@@ -144,5 +115,48 @@ export class DetailsComponent implements OnInit {
 
     public editSession(session: Session) {
         console.log(session);
+    }
+
+    private isStarted(goal: Goal): boolean {
+        return goal.sessions.find((session: Session) => session.status === 'INP') != null;
+    }
+
+    private mapGoalSessionsToSessionModel(goal: Goal): any {
+        const map = new Map();
+        goal.sessions.forEach((session: Session) => {
+            const createdDate = new Date(session.createdDate).getTime();
+            if (!map.has(GoalsService.convertMilisToDays(createdDate))) {
+                const sessionModel = new SessionModel();
+                sessionModel.date = session.createdDate;
+                sessionModel.duration = session.duration;
+                // sessionModel.sessions.push(session);
+                map.set(GoalsService.convertMilisToDays(createdDate), sessionModel);
+            } else {
+                const sessionModel = map.get(GoalsService.convertMilisToDays(createdDate));
+                sessionModel.duration += session.duration;
+                // sessionModel.sessions.push(session);
+                map.set(GoalsService.convertMilisToDays(createdDate), sessionModel);
+            }
+        });
+        return Array.from(map.values());
+    }
+
+    private sortSessionsByDate(array: []): any {
+        return array
+            .filter((x: SessionModel) => {
+                const date = new Date();
+                if (this.timeGoalsService.daysToShow !== '0') {
+                    date.setDate(date.getDate() - parseInt(this.timeGoalsService.daysToShow));
+                } else {
+                    date.setDate(date.getDate() - 1000000);
+                }
+                return new Date(x.date).getTime() > date.getTime();
+            })
+            .sort((a: Session, b: Session) => new Date(a.end).getTime() - new Date(b.end).getTime());
+    }
+
+    private setProperDurationToSessions(array: []): any {
+        array.forEach((session: Session) => (session.duration = session.duration > 0 ? Math.floor(session.duration / 60) : 0));
+        return array;
     }
 }
