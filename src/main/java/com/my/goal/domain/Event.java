@@ -27,19 +27,13 @@ public class Event extends AbstractAuditingEntity implements Serializable {
     private String id;
 
     @NotNull
-//    @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
     @Indexed
     private String name;
 
     @Indexed
     private int daily = 0;
-//    @Indexed
-    //just for lollll?
-    private int total = 0;
 
-    //    @Pattern(regexp = Constants.LOGIN_REGEX)
-//    @Size(min = 1, max = 50)
     @Indexed
     private Instant endDate;
 
@@ -86,14 +80,12 @@ public class Event extends AbstractAuditingEntity implements Serializable {
         this.daily = daily;
     }
 
+    // Bad practise !
+    // This value is only for json representation
     public long getTotal() {
         long sum = this.sessions.stream().mapToLong(Session::getDuration).sum();
         return sum > 0 ? sum / 60 : 0;
     }
-
-//    public void setTotal(int total) {
-//        this.total = total;
-//    }
 
     public Instant getStartDate() {
         return getCreatedDate();

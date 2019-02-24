@@ -5,21 +5,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface EventRepository extends MongoRepository<Event, String> {
 
-//    Optional<Event> findOneByActivationKey(String activationKey);
-//
-//    List<Event> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
-//
-//    Optional<Event> findOneByResetKey(String resetKey);
-//
-//    Optional<Event> findOneByEmailIgnoreCase(String email);
-//
-//    Optional<Event> findOneByLogin(String login);
-//
     List<Event> findAllByCreatedBy(String creator);
 
     List<Event> findByNameIgnoreCase(String name);

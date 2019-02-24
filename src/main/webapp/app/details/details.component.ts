@@ -19,8 +19,8 @@ export class DetailsComponent implements OnInit {
 
     constructor(
         private goalsService: GoalsService,
-        private accountService: AccountService,
         private activatedRoute: ActivatedRoute,
+        public accountService: AccountService,
         public timeGoalsService: TimeGoalsService
     ) {}
 
