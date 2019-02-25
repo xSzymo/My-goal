@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.time.Instant;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -75,7 +76,7 @@ public class EventControllerTest {
             .content(TestUtil.convertObjectToJsonBytes(event)))
             .andExpect(status().isOk());
 
-        assertTrue(eventRepository.findByName(event.getName()).isPresent());
+        assertEquals(0, eventRepository.findByNameIgnoreCase(event.getName()).size());
     }
 
     @Test
@@ -89,7 +90,7 @@ public class EventControllerTest {
         restAuditMockMvc.perform(delete("/api/goal/events/" + event.getId()))
             .andExpect(status().isOk());
 
-        assertFalse(eventRepository.findByName(event.getName()).isPresent());
+        assertEquals(0, eventRepository.findByNameIgnoreCase(event.getName()).size());
     }
 
     @Test

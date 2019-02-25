@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Thread.sleep;
@@ -84,12 +85,12 @@ public class GoalControllerTest {
         restAuditMockMvc.perform(get("/api/goal/stop/"))
             .andExpect(status().isOk());
 
-        Optional<Event> foundEvent = eventRepository.findByName(name);
-        assertTrue(foundEvent.isPresent());
-        assertEquals(1, foundEvent.get().getSessions().size());
-        assertTrue(foundEvent.get().getSessions().iterator().next().getDuration() >= 1);
-        assertEquals(end, foundEvent.get().getEndDate());
-        assertEquals(Status.CLOSE, foundEvent.get().getSessions().iterator().next().getStatus());
+        List<Event> foundEvent = eventRepository.findByNameIgnoreCase(name);
+        assertEquals(1, foundEvent.size());
+        assertEquals(1, foundEvent.get(0).getSessions().size());
+        assertTrue(foundEvent.get(0).getSessions().iterator().next().getDuration() >= 1);
+        assertEquals(end, foundEvent.get(0).getEndDate());
+        assertEquals(Status.CLOSE, foundEvent.get(0).getSessions().iterator().next().getStatus());
     }
 
     @Test
@@ -109,11 +110,11 @@ public class GoalControllerTest {
             .andExpect(status().isOk());
 
         sleep(1000);
-        Optional<Event> foundEvent = eventRepository.findByName(name);
-        assertTrue(foundEvent.isPresent());
-        assertEquals(1, foundEvent.get().getSessions().size());
-        assertTrue(foundEvent.get().getSessions().iterator().next().getDuration() >= 1);
-        assertEquals(end, foundEvent.get().getEndDate());
-        assertEquals(Status.INP, foundEvent.get().getSessions().iterator().next().getStatus());
+        List<Event> foundEvent = eventRepository.findByNameIgnoreCase(name);
+        assertEquals(1, foundEvent.size());
+        assertEquals(1, foundEvent.get(0).getSessions().size());
+        assertTrue(foundEvent.get(0).getSessions().iterator().next().getDuration() >= 1);
+        assertEquals(end, foundEvent.get(0).getEndDate());
+        assertEquals(Status.INP, foundEvent.get(0).getSessions().iterator().next().getStatus());
     }
 }

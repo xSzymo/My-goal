@@ -117,9 +117,9 @@ export class HomeComponent implements OnInit {
         const started = this.checkIfAnySessionIsStarted(this.elements.getValue().find(x => x.id === id));
 
         if (started) {
-            return (time > 0 ? 'INP | Left : ' : 'Nadgodzinki : ') + Math.abs(time);
+            return (time > 0 ? 'INP | Left : ' : 'Overtime : ') + Math.abs(time);
         } else {
-            return (time > 0 ? 'Left : ' : 'Nadgodzinki : ') + Math.abs(time);
+            return (time > 0 ? 'Left : ' : 'Overtime : ') + Math.abs(time);
         }
     }
 
